@@ -8,6 +8,7 @@ VALUES ("Business"),
        ("Legal"),
        ("Cyber Security");
 
+
 INSERT INTO roles (role_title, salary, departments_id)
 VALUES ('CEO', 435000, 1),
        ('CMO', 240000, 2),
@@ -18,6 +19,7 @@ VALUES ('CEO', 435000, 1),
        ('CIO', 300000, 4),
        ('CSO', 245000, 6);
 
+       
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES ('Holden', 'Claus', 1, NULL),
        ('Gunnar', 'Claus', 2, 1),

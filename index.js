@@ -181,3 +181,29 @@ function startApp() {
                 mainMenu();
             });
     }
+    async function viewDepartments() {
+        try {
+            const departments = await db.query("SELECT id, department FROM departments");
+            console.table(departments);
+            mainMenu();
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    async function addDepartments() {
+        const newDept = await 
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'addDepart',
+                    message: 'Name of new department?',
+                }
+            ])
+            const addedDept = await db.query (`INSERT INTO departments(department) VALUES ("${newDept.addDepart}")`)           
+        console.log("Added new department");
+        mainMenu();
+    };
+  mainMenu();
+};
+startApp();
