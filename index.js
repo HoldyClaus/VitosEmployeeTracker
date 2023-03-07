@@ -45,4 +45,22 @@ function startApp() {
                 };
             });
     };
-
+    async function viewAllEmployees() {
+        try {
+            const results = await db.query(
+                `SELECT employees.id, employees.first_name AS "first name", employees.last_name
+                AS "last name", roles.role_title, departments.department AS department, roles.salary,
+                concat(manager.first_name, " ", manager.last_name) AS manager
+                FROM employees
+                LEFT JOIN roles
+                ON employees.role_id = roles.roles_id
+                LEFT JOIN departments
+                ON roles.departments_id = departments.id
+                LEFT JOIN employees manager
+                ON manager.id = employees.manager_id`);
+            console.table(results);
+            mainMenu();
+        } catch (err) {
+            console.log(err);
+        }
+    };
