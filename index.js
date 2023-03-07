@@ -144,4 +144,40 @@ function startApp() {
                 mainMenu();
             });
     };
-    
+    async function viewRoles() {
+    const roles = await db.query("SELECT roles.roles_id, roles.role_title, departments.department, roles.salary FROM roles JOIN departments ON roles.departments_id = departments.id")
+    console.table(roles);
+    mainMenu();
+    };
+    async function addRoles() {
+        let departments = await db.query('SELECT * FROM departments')
+        let departmentsChoices = departments.map(({ id, department }) => ({
+            value: id,
+            name: department
+        }))
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'roleName',
+                    message: 'Role you want to add?',
+                },
+                {
+                    type: 'input',
+                    name: 'roleSalary',
+                    message: 'Salary for this role?',
+                },
+                {
+                    type: 'list',
+                    name: 'employeeRole',
+                    message: 'Department of this role?',
+                    choices: departmentsChoices,
+                },
+            ])
+            .then(function (data) {
+                db.query(`INSERT INTO roles(role_title, salary, departments_id) VALUES 
+                ( "${data.roleName}", "${data.roleSalary}", "${data.employeeRole}")`);
+                console.log("Added new role!");
+                mainMenu();
+            });
+    }
