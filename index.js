@@ -103,10 +103,45 @@ function startApp() {
             ])
             .then(function (data) {
                 db.query(`INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ("${data.firstName}", "${data.lastName}", "${data.employeeRole}", "${data.managerChoices}")`);
-                console.log("New employee has been added!");
+                console.log("Added new employee!");
                 console.log(data.managerChoices);
                 console.log(data.roleChoices);
                 mainMenu();
             });
 
     };
+    async function updateRole() {
+        let employee = await db.query('SELECT * FROM employees')
+        let employeeChoices = employee.map(({ first_name, last_name, id }) => ({
+            value:id,
+            name: `${first_name} ${last_name}`
+        }))
+        let roles = await db.query('SELECT * FROM roles')
+        let roleChoices = roles.map(({ roles_id, role_title }) => ({
+            value: roles_id,
+            name: role_title
+        }))
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    name: 'employeeChosen',
+                    message: 'Update employee?',
+                    choices: employeeChoices,
+                },
+                {
+                    type: 'list',
+                    name: 'roleChosen',
+                    message: 'New role?',
+                    choices: roleChoices,
+                },
+            ])
+            .then(function(data) {
+                db.query(`UPDATE employees SET role_id = "${data.roleChosen}" WHERE id = "${data.employeeChosen}"`);
+                console.log("Employee is updated!");
+                console.log(data.roleChosen);
+                console.log(data.employeeChosen);
+                mainMenu();
+            });
+    };
+    
