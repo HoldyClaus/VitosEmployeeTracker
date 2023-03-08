@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const mysql = require('');
+const mysql = require('mysql2');
 const db = require("./lib/db");
 const utils = require("util");
 db.query = utils.promisify(db.query);
